@@ -143,7 +143,8 @@ void Song::printSongData() {
     std::cout << "File:\t\t" << fileName << "\nSong:\t\t" << songName
         << "\nArtist:\t\t" << printVector(artistNames) << "\nLength:\t\t" << length
         << "s\nBPM:\t\t" << bpm << "\nSize:\t\t" << fileSize << "\nBit Rate:\t" << bitRate 
-        << "\nSample Rate:\t" << sampleRate << "\nKey:\t\t" << key << " " << songMode 
+        << "\nSample Rate:\t" << sampleRate << "\nKey:\t\t" << key << " " << songMode
+        << "\nArtistIDs:\t" << printVector(artistIDs) << "\nsongID:\t\t" << songID
         << "\n---------------------------------------------\n";
 }
 

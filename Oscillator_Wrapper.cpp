@@ -5,7 +5,7 @@ using nlohmann::json;
 
 int testConnection() {
     char *url;
-    url = "https://api-oscillator.herokuapp.com/";
+    strcpy(url, "https://api-oscillator.herokuapp.com/");
     struct memory results;
     results = createSocket(url);
 
@@ -30,6 +30,11 @@ std::vector<Song> querySong(std::string songName, std::string artistName) {
     results = createSocket(url);
 
     json j = json::parse(results.memory);
+
+    if (strcmp(j["results"].dump().c_str(), "null") == 0 ) {
+        std::cout << "Error: " << j["Error"] << std::endl;
+        return songResults;
+    }
     
     for (auto &array : j["results"]) {
         Song song = parseQueryData(array);
@@ -52,6 +57,12 @@ json querySongJson(std::string songName, std::string artistName) {
 
     json j = json::parse(results.memory);
 
+    if (strcmp(j["results"].dump().c_str(), "null") == 0 ) {
+        std::cout << "Error: " << j["Error"] << std::endl;
+    }
+
+    cleanMemory(results);
+
     return j;
 }
 
@@ -66,6 +77,13 @@ const char * querySongString(std::string songName, std::string artistName) {
 
     json j = json::parse(results.memory);
 
+    if (strcmp(j["results"].dump().c_str(), "null") == 0 ) {
+        std::cout << "Error: " << j["Error"] << std::endl;
+        return "Error";
+    }
+
+    cleanMemory(results);
+
     return j.dump().c_str();
 }
 
@@ -78,7 +96,6 @@ std::string eraseChars(std::string str) {
 Song parseQueryData(auto array) {
     std::string sName, sID, sBpm, sLength, sKey, sMode, sImage, aName, aID;
     std::vector<std::string> aNames, aIDs;
-
 
     sName = array["songName"].dump().c_str();
     sID = array["songID"].dump().c_str();
@@ -110,3 +127,77 @@ Song parseQueryData(auto array) {
     return song;
 }
 
+std::vector<Song> recommendSong(std::string songID, std::string artistID, std::string key, std::string bpm) {
+    std::string query = "https://api-oscillator.herokuapp.com/recommend?songID=" + songID + "&artistID=" + artistID;
+    struct memory results;
+    std::vector<Song> songResults;
+
+    if (key != "") query += "&key=" + key;
+    if (bpm != "") query += "&bpm=" + bpm;
+    
+    query = urlify(query);
+    const char *url = query.c_str();
+    results = createSocket(url);
+
+    json j = json::parse(results.memory);
+
+    if (strcmp(j["results"].dump().c_str(), "null") == 0 ) {
+        std::cout << "Error: " << j["Error"] << std::endl;
+        return songResults;
+    }
+    
+    for (auto &array : j["results"]) {
+        Song song = parseQueryData(array);
+        songResults.push_back(song);
+    }
+
+    cleanMemory(results);
+
+    return songResults;
+}
+
+nlohmann::json recommendSongJson(std::string songID, std::string artistID, std::string key, std::string bpm) {
+    std::string query = "https://api-oscillator.herokuapp.com/recommend?songID=" + songID + "&artistID=" + artistID;
+    struct memory results;
+    std::vector<Song> songResults;
+
+    if (key != "") query += "&key=" + key;
+    if (bpm != "") query += "&bpm=" + bpm;
+    
+    query = urlify(query);
+    const char *url = query.c_str();
+    results = createSocket(url);
+
+    json j = json::parse(results.memory);
+
+    if (strcmp(j["results"].dump().c_str(), "null") == 0 ) {
+        std::cout << "Error: " << j["Error"] << std::endl;    
+    }
+    
+    cleanMemory(results);
+
+    return j;
+}
+
+const char * recommendSongString(std::string songID, std::string artistID, std::string key, std::string bpm) {
+    std::string query = "https://api-oscillator.herokuapp.com/recommend?songID=" + songID + "&artistID=" + artistID;
+    struct memory results;
+    std::vector<Song> songResults;
+
+    if (key != "") query += "&key=" + key;
+    if (bpm != "") query += "&bpm=" + bpm;
+    
+    query = urlify(query);
+    const char *url = query.c_str();
+    results = createSocket(url);
+
+    json j = json::parse(results.memory);
+
+    if (strcmp(j["results"].dump().c_str(), "null") == 0 ) {
+        std::cout << "Error: " << j["Error"] << std::endl;    
+    }
+    
+    cleanMemory(results);
+
+    return j.dump().c_str();
+}
