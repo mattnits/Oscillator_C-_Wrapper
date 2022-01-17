@@ -21,19 +21,19 @@ class Song {
         std::string key;
 
         int _errorState;
-        
+
         int songLengthToSeconds(std::string songLength);
 
         // Debug Methods
         void _printDataList(std::vector<std::string> songDataList);
-    
+
     public:
         // Constructors
         Song();
         Song(std::vector<std::string> songDataList);
-        Song(std::string songName, std::string songID, std::vector<std::string> artistNames, std::vector<std::string> artistIDs, 
+        Song(std::string songName, std::string songID, std::vector<std::string> artistNames, std::vector<std::string> artistIDs,
                 std::string songBpm, std::string songLength, std::string songKey, std::string songMode,  std::string albumImage);
-        
+
         // Setters
         void setSongName(std::string newSongName);
         void setArtistNames(std::vector<std::string> newArtistName);
@@ -53,7 +53,8 @@ class Song {
         // Getters
         std::string getFileName() {return fileName;}
         std::string getSongName() {return songName;}
-        std::vector<std::string> getArtistName() {return artistNames;}
+        std::vector<std::string> getArtistList() {return artistNames;}
+        std::string getArtistNames();
         float getSongBpm() {return bpm;}
         int getSongLength() {return length;}
         std::string getFileSize() {return fileSize;}
@@ -67,7 +68,7 @@ class Song {
 
         // Methods
         void printSongData();
-        std::string printVector(std::vector<std::string> vec); 
+        std::string printVector(std::vector<std::string> vec);
         int inErrorState() {return _errorState;}
 };
 

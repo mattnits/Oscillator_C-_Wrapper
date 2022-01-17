@@ -2,7 +2,7 @@
 
 
 Song::Song() {
-    
+
 }
 
 Song::Song(std::vector<std::string> songDataList) {
@@ -19,10 +19,10 @@ Song::Song(std::vector<std::string> songDataList) {
     setSongBpm(songDataList.at(7));
     sampleRate = songDataList.at(6);
     key = songDataList.at(8);
-    
+
 }
 
-Song::Song(std::string songName, std::string songID, std::vector<std::string> artistNames, std::vector<std::string> artistIDs, 
+Song::Song(std::string songName, std::string songID, std::vector<std::string> artistNames, std::vector<std::string> artistIDs,
                 std::string songBpm, std::string songLength, std::string songKey, std::string songMode,  std::string albumImage) {
     setSongName(songName);
     setSongID(songID);
@@ -57,7 +57,7 @@ void Song::setSongBpm(std::string newBpm) {
         _errorState = 1;
         bpm = -1;
     }
-    
+
 }
 
 void Song::setSongLength(std::string newSongLength) {
@@ -123,9 +123,23 @@ void Song::setAlbumImage(std::string newAlbumImage) {
 void Song::setFileName(std::string newFileName) {
     fileName = newFileName;
 }
+std::string Song::getArtistNames() {
+    std::string artistString;
+
+    for (int i=0; i < artistNames.size(); i++) {
+        if (i < artistNames.size() - 1) {
+            artistString += artistNames.at(i) + ", ";
+        } else {
+            artistString += artistNames.at(i);
+        }
+
+    }
+
+    return artistString;
+}
 
 std::string Song::printVector(std::vector<std::string> vec) {
-    
+
     std::string results;
     for (int i = 0; i < vec.size(); i++) {
         if (i < vec.size()-1) {
@@ -136,13 +150,13 @@ std::string Song::printVector(std::vector<std::string> vec) {
     }
 
     return results;
-    
+
 }
 
 void Song::printSongData() {
     std::cout << "File:\t\t" << fileName << "\nSong:\t\t" << songName
         << "\nArtist:\t\t" << printVector(artistNames) << "\nLength:\t\t" << length
-        << "s\nBPM:\t\t" << bpm << "\nSize:\t\t" << fileSize << "\nBit Rate:\t" << bitRate 
+        << "s\nBPM:\t\t" << bpm << "\nSize:\t\t" << fileSize << "\nBit Rate:\t" << bitRate
         << "\nSample Rate:\t" << sampleRate << "\nKey:\t\t" << key << " " << songMode
         << "\nArtistIDs:\t" << printVector(artistIDs) << "\nsongID:\t\t" << songID
         << "\n---------------------------------------------\n";
@@ -153,5 +167,5 @@ void Song::_printDataList(std::vector<std::string> songDataList) {
     for (int i = 0; i < (int)songDataList.size(); i++) {
         std::cout << songDataList.at(i) << "\n";
     }
-    
+
 }
